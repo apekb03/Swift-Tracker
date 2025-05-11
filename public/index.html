@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Swift Tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Electrolize&family=Graduate&display=swap" rel="stylesheet">
+
+  <!-- leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+  crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+  crossorigin=""></script>
+
+</head>
+
+<body>
+    <div id="frame">
+        <nav id="topNav" class="hidden">
+            <ul>
+              <li><a href="#" id="navShareLoc">Share Location </a></li>
+              <li><a href="#" id="navTrackPeople">Track People</a></li>
+              <li ><a href="#" id="navLogoutLink">Logout</a></li>
+              
+            </ul>
+          </nav>
+        <!-- main screen 1st  -->
+        <div id="initialScreen">
+
+            <img id="logo" src="Swift.png" alt="Logo">
+            
+            <div class="buttons">
+                <button id="loginLink">Login</button>
+                <button id="signupLink">Sign Up</button>
+            </div>
+        </div>
+    
+        <!-- LOGIN -->
+        <div id="loginScreen" class="hidden">
+            <p id="text-content">Swift Tracker</p>
+            <!-- <div id="header"> -->
+                <div class="logo-title-container">
+                    <img id="logo2" src="Swift.png" alt="Logo">
+                    <p class="description">Real-Time. Right Now</p>
+                    
+                </div>
+            
+                <hr>
+            <!-- </div> -->
+            <h1>Login</h1>
+
+            <!-- Email/Password login -->
+                <input type="email" id="email" placeholder="Email" />
+
+                <input type="password" id="password" placeholder="Password" />
+
+                <button id="login-btn">Log In</button>
+                <hr>
+
+        </div>
+        <!-- SIGNUP -->
+        <div id="registerScreen" class="hidden">
+            <p id="text-content1">Swift Tracker</p>
+            <div class="logo-title-container" >
+               
+                <img id="logo3" src="Swift.png" alt="Logo">
+               <br>
+                <p class="description">Real-Time. Right Now</p>
+                
+            </div>
+            <hr>
+            <h2>Sign Up</h2>
+            <input type="text" id="name" placeholder="Name" />
+            <input type="email" id="signupEmail" placeholder="Email" />
+            <input type="password" id="signPassword" placeholder="Password" />
+            <input type="password" id="confirm-password" placeholder="Confirm Password" />
+            <button id="signup-btn">Sign Up</button>
+            <hr>
+         </div>
+
+        <div id="mainScreen" class="hidden">
+            <h1>Welcome <span id="nameScreen"></span></h1>
+            <div id= "realtime">Find your friends and family in real-time.
+                <p>Do you want to Share Location?
+                    <button id="track-btn">Share my Location
+                        <!-- this button enables tracking for friends -->
+                        <!-- need a list of friends. how? -->
+                    </button>
+                </p>
+            </div>
+            
+            
+            <!-- <div id="map1"></div> -->
+        </div>
+        
+        <div id="trackingScreen" class="hidden">
+            <h1>Tracking</h1>
+
+            <p id="trackingText">
+            You are sharing your location <span id="trackingName"></span>.
+            </p>
+            <button id="stopSharing-btn">Stop Sharing</button>
+
+            <p>This is your session password:</p>
+            <div id="sessionPass"></div>
+            <!-- <input type="text" id="friendName" placeholder="Enter friend's name to share location" />
+            <button id="findFriend-btn">Find Friend</button> -->
+            
+        </div>
+
+        <div id="afterStop-btn" class="hidden"> Location sharing stopped <span id="sessionName"></span>
+            
+        </div>
+
+        <!-- friends loc -->
+        
+        <div id="share" class="hidden"><p id="pg">Type a Friend's Tracking Code to Locate Them </p><br>
+            <input type="text" id="HTMLuserString" placeholder="UserString" />
+            <button id="find-btn">Find</button>
+            <br>
+            <span id="welcome-track"></span><br>
+            <button id="stopTracking-btn" class="hidden">Stop Tracking</button><br>
+            <span id="stopMsg"></span>
+            
+
+            <!-- <div id="friendList">Your Friend List 
+                <p id="friendName">
+
+                </p>
+            </div> -->
+        </div>
+
+        <div id="logoutScreen" class="hidden">
+            <h1>Logout</h1>
+            <p>Are you sure you want to logout?</p>
+            <button id="logout-btn">Logout</button>
+            <button id="cancelLogout-btn">Cancel</button>
+        </div>       
+        <div id="map2" class="hidden" ></div>
+        <div id="error" class="critical"></div>
+    </div>
+
+  <script type="module" src="script.js"></script>
+
+  <!-- Firebase Scripts -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+  </script>
+</body>
+</html>

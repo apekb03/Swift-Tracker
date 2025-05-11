@@ -1,0 +1,326 @@
+#mainFrame{
+    font-size: 60%;
+    color: #0021F5;
+    font-family: "Electrolize", sans-serif;
+    text-align: center;
+    
+}
+body{
+    background-color: white;
+    color:#0021F5;
+    font-size: 25pt;
+    font-family: "Electrolize", sans-serif;
+    text-align: center;
+    align-items: center;
+    justify-items:auto;
+    justify-content:flex-start;
+}
+#logo{
+    width: 480px;
+    height: 500px;
+    object-fit: contain;
+    align-items: center;
+    
+}
+@media screen and (max-width: 430px) {
+    #logo{
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+        object-fit: contain;
+        margin-top: 135px;
+    }
+    body{
+        font-size: 20pt;
+    }
+    
+}
+Button{
+    font-family: "Electrolize", sans-serif;
+    background-color: #0021F5;
+    color: white;
+    border-radius: 10px;
+    border: none;
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+}
+button:hover{
+    background-color: #0010A5;
+}
+
+
+
+/* login page media */
+@media only screen and (min-width: 430px) {
+    #text-content {
+        font-size: 25pt;
+    }
+
+    html, body {
+        max-width: 100%;
+        min-height: 100vh;
+        overflow-x: hidden;
+        margin: 0;
+        padding: 0;
+
+    }
+
+    #logo2, #logo3 {
+        height: 40px;
+        max-width: 100%;
+        object-fit: contain;
+    }
+
+    #form-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+        box-sizing: border-box;
+        width: 100%;
+    }
+
+    button {
+        font-family: "Electrolize", sans-serif;
+        background-color: #0021F5;
+        color: white;
+        border-radius: 10px;
+        border: none;
+        padding: 10px 20px;
+        font-size: 20px;
+        cursor: pointer;
+        object-fit: contain;
+    }
+
+    button:hover {
+        background-color: #0010A5;
+        transition-duration: 0.4s;
+    }
+}
+.hidden{
+    display: none;
+}
+
+.critical {
+    color: red;
+}
+
+#error {
+    font-size:80; 
+}
+/* #map1 { 
+    height: 500px; 
+    width: 1200px;
+    margin: 0 auto;
+    margin-top: 200px;
+}
+
+#map2 { 
+    height: 500px; 
+    width: 1200px;
+    margin: 0 auto;
+    margin-top: 200px;
+} */
+nav {
+    background-color: #333; /* Dark background */
+    padding: 10px 20px;
+
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; /* Ensures it's on top */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  nav li {
+    margin-right: 15px;
+  }
+  
+  nav a {
+    display: block;
+    padding: 10px 16px;
+    background-color: #0021F5;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+    cursor: pointer;
+  }
+  
+  nav a:hover {
+    background-color: #0010A5;
+    transform: translateY(-2px);
+  }
+  
+  /* Add margin to body content so it's not hidden under the fixed nav */
+  body {
+    margin-top: 70px; /* Adjust based on nav height */
+  }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  #frame {
+    height: 100%;
+  }
+  
+#map1,
+#map2 {
+    height: 100vh;
+    width: 78%;
+    margin: 0 auto;          /* center horizontally */
+    display: block;
+  }
+  
+  
+/* Shared container styles */
+#loginScreen, #registerScreen {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 40px 30px;
+    background-color: #f7f9fc;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 33, 245, 0.1);
+  }
+  
+  /* Titles */
+  #loginScreen h1,
+  #registerScreen h2 {
+    font-size: 30pt;
+    color: #0021F5;
+    margin-bottom: 20px;
+  }
+  
+  /* Inputs */
+  #loginScreen input,
+  #registerScreen input {
+    width: 94%;
+    font-size: 16pt;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 2px solid #0021F5;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  
+  #loginScreen input:focus,
+  #registerScreen input:focus {
+    border-color: #0010A5;
+  }
+  
+  /* Buttons */
+  #loginScreen button,
+  #registerScreen button {
+    width: 100%;
+    background-color: #0021F5;
+    color: white;
+    font-size: 18pt;
+    font-weight: bold;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+  }
+  
+  #loginScreen button:hover,
+  #registerScreen button:hover {
+    background-color: #0010A5;
+  }
+  
+  /* Description under logo */
+  .description {
+    font-size: 14pt;
+    color: white;
+    margin: 10px 0 0;
+  }
+  
+  /* Header / logo title section */
+  #header{
+    /* display: flex; */
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap; 
+    gap: 16px;
+    padding: 20px;
+    background-color: #0021F5;
+    color: white;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    box-sizing: border-box;
+    max-width: 100%;
+    overflow: hidden;
+    width: 100%;            
+    margin: 0 auto; 
+    
+  }
+  
+  #logo2, #logo3 {
+    height: 60px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+    display: block;
+    margin-bottom: 10px;
+    position: center;
+    margin-left: 2px;
+  }
+    #logo3 {
+        margin-left: 2px;
+    }
+
+
+  
+  
+  
+  /* Responsive */
+  @media screen and (max-width: 430px) {
+    #loginScreen, #registerScreen {
+      margin: 20px;
+      padding: 30px 20px;
+    }
+  
+    #loginScreen h1,
+    #registerScreen p {
+      font-size: 24pt;
+    }
+  
+    #loginScreen input,
+    #registerScreen input {
+      font-size: 14pt;
+    }
+  
+    #loginScreen button,
+    #registerScreen button {
+      font-size: 16pt;
+    }
+  }
+  
+  .logo-title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #0021F5;
+    padding: 20px;
+    color: white;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+  }
+  

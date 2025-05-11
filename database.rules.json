@@ -1,0 +1,21 @@
+{
+  "rules": {
+    "locations": {
+      "$sessionId": {
+ 
+        ".read": "auth != null",
+
+
+        ".write": "auth != null && (!data.exists() && newData.child('owner').val() === auth.uid || data.child('owner').val() === auth.uid)"
+      }
+    },
+    "users": {
+      "$uid": {
+
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    }
+  }
+}
+
