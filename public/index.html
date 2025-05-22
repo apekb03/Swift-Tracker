@@ -18,6 +18,7 @@
 </head>
 
 <body>
+
     <div id="frame">
         <nav id="topNav" class="hidden">
             <ul>
@@ -82,7 +83,9 @@
          </div>
 
         <div id="mainScreen" class="hidden">
-            <h1>Welcome <span id="nameScreen"></span></h1>
+            <h1>Welcome 
+                <!-- <span id="nameScreen"></span> -->
+            </h1>
             <div id= "realtime">Find your friends and family in real-time.
                 <p>Do you want to Share Location?
                     <button id="track-btn">Share my Location
@@ -97,7 +100,7 @@
         </div>
         
         <div id="trackingScreen" class="hidden">
-            <h1>Tracking</h1>
+            <!-- <h1>Tracking</h1> -->
 
             <p id="trackingText">
             You are sharing your location <span id="trackingName"></span>.
@@ -143,7 +146,9 @@
         <div id="error" class="critical"></div>
     </div>
 
+
   <script type="module" src="script.js"></script>
+  <script src="./env.js"></script>
 
   <!-- Firebase Scripts -->
   <script type="module">

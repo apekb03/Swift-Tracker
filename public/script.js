@@ -1,18 +1,18 @@
 // Import Firebase modules
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js';
 import { getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword, onAuthStateChanged, setPersistence, browserLocalPersistence, signOut } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js';
-import { getDatabase, ref, set, child, get, onValue, remove, query, orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
+import { getDatabase, ref, set, child, get, onValue, remove} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
 
 //Firebase config
 const firebaseConfig = {
-    apiKey: "AIzaSyBncJaDzppVkpPBMWvDo-NQVNsdXNUm0OE",
-    authDomain: "swift-app-cb8c7.firebaseapp.com",
-    databaseURL: "https://swift-app-cb8c7-default-rtdb.firebaseio.com",
-    projectId: "swift-app-cb8c7",
-    storageBucket: "swift-app-cb8c7.firebasestorage.app",
-    messagingSenderId: "980347128960",
-    appId: "1:980347128960:web:0d08ce5b23c4311b562a65",
-    measurementId: "G-KV6ELB8VFN"
+    apiKey: window._env_.FIREBASE_API_KEY,
+    authDomain: window._env_.FIREBASE_AUTH_DOMAIN,
+    databaseURL: window._env_.FIREBASE_DATABASE_URL,
+    projectId: window._env_.FIREBASE_PROJECT_ID,
+    storageBucket: window._env_.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: window._env_.FIREBASE_MESSAGING_SENDER_ID,
+    appId: window._env_.FIREBASE_APP_ID,
+    measurementId: window._env_.FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
@@ -41,6 +41,9 @@ $("#navTrackPeople").addEventListener('click',findScreen);
 $("#navShareLoc").addEventListener('click',openHomeScreen);
 
 
+
+
+
 //detects change to the auth state, but the session is restored via local persistence
 onAuthStateChanged(auth, auth=>{
     console.log('this is the authenticated person rn', auth)
@@ -48,7 +51,7 @@ onAuthStateChanged(auth, auth=>{
         // Signed in 
         user = auth;
         console.log('logged in',user);
-        console.log('thu',auth.uid);
+        //console.log('thu',auth.uid);
         showError(error);
         const dbRef = ref(getDatabase());   //this is for reference for the root of the database
         get(child(dbRef, `users/${user.uid}`)).then((snapshot) => {
@@ -60,6 +63,8 @@ onAuthStateChanged(auth, auth=>{
             console.log("No data available");
             //initialScreen();
         }
+
+
         }).catch((error) => {
             console.error(error);
         });
@@ -67,8 +72,10 @@ onAuthStateChanged(auth, auth=>{
         
         
     }else{
-        //console.log('executing this line');
+        console.log('executing this line');
         initialScreen()
+        document.getElementById('app').style.display = 'block'; // show app
+
     }
 })
 
@@ -124,7 +131,7 @@ function logout(){
     console.log('logged out of ',user.email);
     signOut(auth)
     .then(() => 
-        initialScreen)
+        initialScreen())
     .catch((error) => {
         showError(error)
     });
@@ -180,11 +187,9 @@ function openHomeScreen(){
     $('#mainScreen').classList.remove('hidden');
     $("#topNav").classList.remove("hidden");
     $('#nameScreen').innerText = userDoc?.name;
-    console.log(userDoc);
+    console.log('this is user doc', userDoc);
     
 }
-
-
 
 function track(){
     $('#loginScreen').classList.add('hidden');
@@ -195,7 +200,15 @@ function track(){
     $('#trackingScreen').classList.remove('hidden');
     $("#topNav").classList.remove("hidden");
     $("#map2").classList.remove("hidden");
-    currentLocation();
+    //currentLocation();
+    onAuthStateChanged(auth, (authUser) => {
+        if (authUser) {
+            user = authUser;
+            currentLocation(user.uid);
+        } else {
+            showError("You must be logged in to track location.");
+        }
+    });
     if (!map2) {
         map2 = L.map('map2', {
           center: [40.846409, -74.28254],
@@ -277,7 +290,7 @@ function signup(){
         showError('');
         resetInputs();
         
-        openHomeScreen({name})
+        openHomeScreen()
         // save user info in db
         set(ref(db,'/users/'+user.uid),{
             name,email,userString
@@ -309,6 +322,7 @@ function login(){
         console.log(user);
         user=userCredential.user;
         console.log("signed in");
+        
         
 
     })
@@ -445,53 +459,47 @@ function generateRandomStringWithTime(length) {
 
 //current loc
 let watch;
+let firstLocationUpdate = true;
 
 function currentLocation(uid) {
-  if (!navigator.geolocation) {     //navigator.geolocation = browser API that allows web applications to access the user's location
+  if (!navigator.geolocation) {
     alert("Geolocation not supported.");
     return;
   }
+
   console.log('started watching');
   const sessionPassword = generateRandomStringWithTime(16);
-  console.log('this is your session password', sessionPassword);
-  console.log('this is',auth.uid);
   document.getElementById('sessionPass').innerHTML = sessionPassword;
 
+  watch = navigator.geolocation.watchPosition(
+    (position) => {
+      const { latitude, longitude } = position.coords;
 
-  //console.log(timestamp);
-    watch=navigator.geolocation.watchPosition(
-        (position) => {   //  navigator.geolocation.watchPosition asks to check user's actual location, aka triggers allow or deny part , watchposition enables continuous updates
-        const { latitude, longitude } = position.coords;
-
+      if (firstLocationUpdate) {
         console.log('setting map view');
-        //map2.setView([latitude, longitude], 16);
-        if (map2 && map2.setView) { 
-            map2.setView([latitude, longitude], 16);
-        }
-        
-        drawCircle(latitude, longitude);
-        console.log('Constantly updated position: ', user.uid,latitude,longitude)
-        set(ref(getDatabase(), 'locations/' + sessionPassword),{
-            
-        owner: user.uid,    //database security purpose
+        map2.setView([latitude, longitude], 16);
+        firstLocationUpdate = false;
+      }
+
+      drawCircle(latitude, longitude);
+
+      console.log('Constantly updated position: ', user.uid, latitude, longitude);
+      set(ref(getDatabase(), 'locations/' + sessionPassword), {
         lat: latitude,
         lng: longitude
-        })
-    }, 
+      });
+    },
     (error) => {
-    const timestamp = new Date().getTime();
-    const date = new Date(timestamp);
-    console.log(date);
-    console.error("Location error:", error.message);
-  },
-{
-
-    maximumAge:100,
-    timeout: 50000,
-    enableHighAccuracy:true
- 
-  });
+      console.error("Location error:", error.message);
+    },
+    {
+      maximumAge: 100,
+      timeout: 50000,
+      enableHighAccuracy: true
+    }
+  );
 }
+
 
 function deleteLocData() {
     console.log('stop sharing data');
@@ -519,28 +527,34 @@ function deleteLocData() {
 
 var locationRefDB;
 var stopListening;
-function getLocation(){
-    const otherUser=document.getElementById('HTMLuserString').value;
+var hasCentered = false; // <- NEW FLAG
+
+function getLocation() {
+    const otherUser = document.getElementById('HTMLuserString').value;
     console.log(otherUser);
     
-    locationRefDB=ref(db,`locations/${otherUser}`);
-    stopListening=onValue(locationRefDB,(snapshot)=>{
-        // console.log(snapshot.val());
-        // snapshot.forEach((childSnapshot)=>{
-        const childData=snapshot.val();
-        console.log('this is the location for ',childData);
+    locationRefDB = ref(db, `locations/${otherUser}`);
+    stopListening = onValue(locationRefDB, (snapshot) => {
+        const childData = snapshot.val();
+        if (!childData) return;
+
+        console.log('this is the location for ', childData);
         $("#welcome-track").innerHTML = `Here's the location of the requested user:<br>Lat: ${childData.lat}<br>Lng: ${childData.lng}`;
 
         const timestamp = new Date().getTime();
         const date = new Date(timestamp);
         console.log(date);
-        if (map2 && map2.setView) {
+
+        // Only center the first time
+        if (!hasCentered) {
             map2.setView([childData.lat, childData.lng], 16);
+            hasCentered = true;
         }
-        //map2.setView([childData.lat, childData.lng], 16);
-        drawCircle(childData.lat,childData.lng);
-});
+
+        drawCircle(childData.lat, childData.lng);
+    });
 }
+
 
 function stopTracking(){
     console.log("stop Tracking func");
