@@ -1,4 +1,4 @@
-### Swift Tracker
+# Swift Tracker
 Swift Tracker is a live location-sharing app that allows users to broadcast their current location and track their friends in real time. Each session generates a unique random string that must be shared for others to access a user's location. This ensures privacy and control over who can view shared data.
 
 ## Technologies Used
